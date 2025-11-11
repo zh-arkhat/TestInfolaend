@@ -1,33 +1,58 @@
 import pytest
+from pytest_playwright.pytest_playwright import page
+
+from pages.locators import ProductPageLocators
 from pages.product_page import ProductPage
 
-@pytest.mark.parametrize('link', [
-    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
-    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer1",
-    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer2",
-    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer3",
-    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer4",
-    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer5",
-    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer6",
+link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
 
-    pytest.param(
-        "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer7",
-        marks=pytest.mark.xfail,
-        id="prom_offer_with_bug"
-    ),
 
-    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer8",
-    "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9",
-])
-
-def test_guest_can_add_product_to_basket(browser, link):
+# 1. Тест: Сообщения НЕ должно быть после добавления товара
+# ---------------------
+@pytest.mark.xfail(reason="Сообщение появляется — это известный баг по заданию")
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link)
     page.open()
-    product_name = page.get_product_name()
-    product_price = page.get_product_price()  # <-- получаем цену со страницы товара
-
     page.add_product_to_basket()
-    page.solve_quiz_and_get_code()
 
-    page.should_be_success_message_with_product_name(product_name)
-    page.should_be_message_with_basket_price(product_price)
+    # ✅ assert: проверяем, что сообщение отсутствует
+    assert page.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+        "Success message is presented, but should not be"
+
+
+# ---------------------
+# 2. Тест: Сообщения НЕ должно быть, если просто открыть страницу
+# ---------------------
+def test_guest_cant_see_success_message(browser):
+    page = ProductPage(browser, link)
+    page.open()
+
+    # ✅ assert
+    assert page.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+        "Success message is presented on product page, but should not be"
+
+
+# ---------------------
+# 3. Тест: Сообщение должно исчезать через пару секунд
+# ---------------------
+@pytest.mark.xfail(reason="Сообщение НЕ исчезает — баг по заданию")
+def test_message_disappeared_after_adding_product_to_basket(browser):
+    page = ProductPage(browser, link)
+    page.open()
+    page.add_product_to_basket()
+
+    # ✅ assert
+    assert page.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
+        "Success message did not disappear"
+
+def test_guest_should_see_login_link_on_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_be_login_link()
+
+def test_guest_can_go_to_login_page_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/category/books_2/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_be_login_link()

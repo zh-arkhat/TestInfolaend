@@ -23,3 +23,15 @@ class ProductPage(BasePage):
         actual_price = self.browser.find_element(*ProductPageLocators.BASKET_PRICE).text
         assert expected_price == actual_price, \
             f"Expected basket price '{expected_price}', but got '{actual_price}'"
+
+    def add_product_to_basket(self):
+        basket_btn = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET_BTN)
+        basket_btn.click()
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message is presented, but should not be"
+
+    def should_disappear_success_message(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message did not disappear"
