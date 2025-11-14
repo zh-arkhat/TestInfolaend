@@ -9,5 +9,14 @@
   "test_product_page.py::test_guest_cant_see_success_message_after_adding_product_to_basket[http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer6]": true,
   "test_product_page.py::test_guest_cant_see_success_message_after_adding_product_to_basket[http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer8]": true,
   "test_product_page.py::test_guest_cant_see_success_message_after_adding_product_to_basket[http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9]": true,
-  "test_product_page.py::test_guest_can_add_product_to_basket": true
+  "test_product_page.py::test_guest_can_add_product_to_basket": true,
+  "test_param_page.py::test_stepik_feedback[https://stepik.org/lesson/236895/step/1]": true,
+  "test_param_page.py::test_stepik_feedback[https://stepik.org/lesson/236896/step/1]": true,
+  "test_param_page.py::test_stepik_feedback[https://stepik.org/lesson/236897/step/1]": true,
+  "test_param_page.py::test_stepik_feedback[https://stepik.org/lesson/236898/step/1]": true,
+  "test_param_page.py::test_stepik_feedback[https://stepik.org/lesson/236899/step/1]": true,
+  "test_param_page.py::test_stepik_feedback[https://stepik.org/lesson/236903/step/1]": true,
+  "test_param_page.py::test_stepik_feedback[https://stepik.org/lesson/236904/step/1]": true,
+  "test_param_page.py::test_stepik_feedback[https://stepik.org/lesson/236905/step/1]": true,
+  "test_product_page.py": true
 }
